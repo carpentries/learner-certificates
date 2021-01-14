@@ -7,7 +7,7 @@ The second, pure python method uses the python packages jinja2, jinja2-cli and s
 
 To build certificates this way, you can run:
 ```
-jinja2 swc-instructor.svg -D name="Firstname Lastname" -D date="Nov. 6, 2017" -D instructor="Some Instructor Name" > lastname_firstname.svg
+jinja2 swc-attendance.svg -D name="Firstname Lastname" -D date="Nov. 6, 2017" -D instructor="Some Instructor Name" > lastname_firstname.svg
 svg2pdf lastname_firstname.svg 
 ```
 
