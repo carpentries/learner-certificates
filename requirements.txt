@@ -1,0 +1,3 @@
+jinja2
+jinja2-cli
+svglib
