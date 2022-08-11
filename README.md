@@ -2,7 +2,9 @@
 
 ## Learner Certificates
 
-This repo has templates for Carpentries workshop Instructors to issue certificates to their learners for completing a Data, Library, or Software Carpentry workshop.
+This repo has templates for Carpentries workshop Instructors to issue certificates to their learners for completing a Data, Library, or Software Carpentry workshop.  This certificates can be issued directly by Carpentries workshop Instructors to their learners.
+
+Certificates issued direclty by the Carpentries include thos for Instructors, Maintainers, Trainers, and more.  For information about these certifcates, please contact team@carpentries.org.
 
 ## Building Certificates
 
