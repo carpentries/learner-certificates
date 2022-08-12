@@ -149,12 +149,13 @@ def construct_template_path(root_dir, badge_type):
 def construct_output_path(root_dir, badge_type, user_id):
     '''Create path for generated PDF certificate.'''
 
-    path_exists = os.path.exists(os.path.join(root_dir, badge_type))
+    badge_path = os.path.join(root_dir, badge_type)
+    path_exists = os.path.exists(badge_path)
 
     if not path_exists:
-        os.mkdir(os.path.join(root_dir, badge_type))
+        os.mkdir(badge_path)
 
-    return os.path.join(root_dir, badge_type, user_id + '.pdf')
+    return os.path.join(badge_path, user_id + '.pdf')
 
 
 def create_certificate(template_path, output_path, params):
