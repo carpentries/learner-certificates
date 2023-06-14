@@ -85,7 +85,7 @@ def parse_args():
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-b', '--badge', dest='badge_type', help='Type of badge')
+        '-b', '--badge', help='Type of badge')
     parser.add_argument(
         '-o', '--output-dir', default=Path.cwd(), type=Path,
         help='Output directory (current by default)')
@@ -119,44 +119,45 @@ def process_csv(args, env):
     if 'user_id' not in data.columns:
         data['user_id'] = data['name'].apply(construct_user_name)
     if 'badge' not in data.columns:
-        check(args.badge_type is not None, "need to specify badge type")
-        data['badge'] = args.badge_type
+        check(args.badge is not None, "need to specify badge type")
+        data['badge'] = args.badge
     for _, row in data.iterrows():
-        create_certificate(
-            row['badge'], row['instructor'], row['user_id'], row['name'],
-            row['date'], args.output_dir, env)
+        create_certificate(args.output_dir, env, row)
 
 
 def process_single(args, env):
     '''Process a single entry.'''
 
     check(args.instructor is not None, "need to specify instructor")
-    check(args.badge_type is not None, "need to specify badge type")
+    check(args.badge is not None, "need to specify badge type")
 
     if args.user_id is None:
         user_id = construct_user_name(args.name)
     else:
         user_id = args.user_id
 
-    create_certificate(args.badge_type, args.instructor, user_id,
-                       args.name, args.date, args.output_dir, env)
+    params = {}
+    for k in ['badge', 'instructor', 'name', 'date']:
+        params[k] = getattr(args, k)
+    params['user_id'] = user_id
+
+    create_certificate(args.output_dir, env, params)
 
 
-def create_certificate(
-        badge_type, instructor, user_id, name, datestr, output, env):
+def create_certificate(output, env, params):
     '''Create a single certificate.'''
 
-    template = env.get_template(badge_type + ".svg")
-    badge_path = output / Path(badge_type)
+    params['date'] = date.fromisoformat(params['date']).strftime(DATE_FORMAT)
+
+    template = env.get_template(params['badge'] + ".svg")
+    badge_path = output / Path(params['badge'])
 
     if not badge_path.exists():
         badge_path.mkdir()
-    outputpdf = badge_path / Path(user_id).with_suffix('.pdf')
+    outputpdf = badge_path / Path(params['user_id']).with_suffix('.pdf')
 
     tmp = tempfile.NamedTemporaryFile(suffix='.svg', delete=False)
-    tmp.write(bytes(template.render(
-        name=name, instructor=instructor,
-        date=date.fromisoformat(datestr).strftime(DATE_FORMAT)), 'utf-8'))
+    tmp.write(bytes(template.render(**params), 'utf-8'))
     cairosvg.svg2pdf(url=tmp.name, write_to=str(outputpdf), dpi=90)
 
 
