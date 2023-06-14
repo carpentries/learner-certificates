@@ -160,6 +160,8 @@ def create_certificate(output, env, params):
     tmp.write(bytes(template.render(**params), 'utf-8'))
     cairosvg.svg2pdf(url=tmp.name, write_to=str(outputpdf), dpi=90)
 
+    Path(tmp.name).unlink()
+
 
 def check(condition, message):
     '''Fail if condition not met.'''
