@@ -11,3 +11,6 @@ jinja2 swc-attendance.svg -D name="Firstname Lastname" -D date="Nov. 6, 2017" -D
 svg2pdf lastname_firstname.svg 
 ```
 
+## Certificate Templates
+
+We offer certificate templates for standard Data Carpentry, Library Carpentry, and Software Carpentry workshops.  We do not offer templates for non-standard workshops, such as mix-and-match, Incubator, or Lab workshops.  
