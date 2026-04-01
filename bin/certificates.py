@@ -12,7 +12,7 @@ A typical command line is
 
 python bin/certificates.py \
        -b swc-attendance \
-       -r $HOME/sc/certification/ \
+       -r . \
        -u turing_alan \
        date='January 24, 1924' \
        instructor='Ada Lovelace' \
