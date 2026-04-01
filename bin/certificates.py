@@ -8,29 +8,31 @@ Generate a certificate from a template.
 * Some systems may also need to have 'cairo' installed.
   Please visit http://cairographics.org/download/ for the same.
 
-On a Mac, a typical command line is
+A typical command line is
 
 python bin/certificates.py \
-       -b swc-instructor
-       -r $HOME/sc/certification/ \
-       -u turing_alan
+       -b swc-attendance \
+       -r . \
+       -u turing_alan \
        date='January 24, 1924' \
        instructor='Ada Lovelace' \
        name='Alan Turing'
 
 where:
 
-    -b:         BADGE_TYPE
-    -r:         ROOT_DIRECTORY
-    -u:         USER_ID
-    name=value: fill-ins for the template
+    -b:         BADGE_TYPE (must be swc-attendance, dc-attendance, or lc-attendance)
+    -r:         ROOT_DIRECTORY 
+    -u:         USER_ID (generally learner's lastname_firstname, used to generate filename)
+    name:       Full name of learner
+    instructor: Full name of Instructor granting the certificate
+    date:       Date of certificate
 
 The script then looks for $(ROOT_DIRECTORY)/$(BADGE_TYPE).svg as a template
 file, and creates $(ROOT_DIRECTORY)/$(BADGE_TYPE)/$(USER_ID).pdf as output.
 
-This script will also take a CSV file as input.  The file must contain rows of:
+This script will also take a CSV file as input.  A header row is expected.The file must contain rows of:
 
-    badge,trainer,user_id,new_instructor,email,date
+    badge,instrctor,user_id,new_instructor,email,date
 
 such as:
 
@@ -38,9 +40,8 @@ such as:
 
 In this case, the command line invocation is:
 
-python bin/certificates.py \
-       -r $HOME/sc/certification/ \
-       -c input.csv
+python bin/certificates.py -r . -c cert_list.csv 
+
 '''
 
 import sys
@@ -121,6 +122,7 @@ def process_csv(args):
 
     with open(args.csv_file, 'r') as raw:
         reader = csv.reader(raw)
+        next(reader)
         for row in reader:
             check(len(row) == 6, 'Badly-formatted row in CSV: {0}'.format(row))
             badge_type, args.params['instructor'], user_id, args.params['name'], email, args.params['date'] = row
