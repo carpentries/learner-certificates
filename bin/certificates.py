@@ -11,9 +11,9 @@ Generate a certificate from a template.
 On a Mac, a typical command line is
 
 python bin/certificates.py \
-       -b swc-instructor
+       -b swc-attendance \
        -r $HOME/sc/certification/ \
-       -u turing_alan
+       -u turing_alan \
        date='January 24, 1924' \
        instructor='Ada Lovelace' \
        name='Alan Turing'
