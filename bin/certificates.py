@@ -20,17 +20,19 @@ python bin/certificates.py \
 
 where:
 
-    -b:         BADGE_TYPE
-    -r:         ROOT_DIRECTORY
-    -u:         USER_ID
-    name=value: fill-ins for the template
+    -b:         BADGE_TYPE (must be swc-attendance, dc-attendance, or lc-attendance)
+    -r:         ROOT_DIRECTORY 
+    -u:         USER_ID (generally learner's lastname_firstname, used to generate filename)
+    name:       Full name of learner
+    instructor: Full name of Instructor granting the certificate
+    date:       Date of certificate
 
 The script then looks for $(ROOT_DIRECTORY)/$(BADGE_TYPE).svg as a template
 file, and creates $(ROOT_DIRECTORY)/$(BADGE_TYPE)/$(USER_ID).pdf as output.
 
-This script will also take a CSV file as input.  The file must contain rows of:
+This script will also take a CSV file as input.  A header row is expected.The file must contain rows of:
 
-    badge,trainer,user_id,new_instructor,email,date
+    badge,instrctor,user_id,new_instructor,email,date
 
 such as:
 
@@ -38,9 +40,8 @@ such as:
 
 In this case, the command line invocation is:
 
-python bin/certificates.py \
-       -r $HOME/sc/certification/ \
-       -c input.csv
+python bin/certificates.py -r . -c cert_list.csv 
+
 '''
 
 import sys
