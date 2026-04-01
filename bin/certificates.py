@@ -8,7 +8,7 @@ Generate a certificate from a template.
 * Some systems may also need to have 'cairo' installed.
   Please visit http://cairographics.org/download/ for the same.
 
-On a Mac, a typical command line is
+A typical command line is
 
 python bin/certificates.py \
        -b swc-attendance \
