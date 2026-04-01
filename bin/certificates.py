@@ -121,6 +121,7 @@ def process_csv(args):
 
     with open(args.csv_file, 'r') as raw:
         reader = csv.reader(raw)
+        next(reader)
         for row in reader:
             check(len(row) == 6, 'Badly-formatted row in CSV: {0}'.format(row))
             badge_type, args.params['instructor'], user_id, args.params['name'], email, args.params['date'] = row
